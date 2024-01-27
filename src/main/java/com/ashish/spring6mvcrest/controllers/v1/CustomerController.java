@@ -23,8 +23,13 @@ public class CustomerController {
                 HttpStatus.OK);
     }
 
-    @GetMapping("/{firstName}")
-    public ResponseEntity<CustomerDTO> getCustomerByFirstName(@PathVariable("firstName") String firstName){
-        return new ResponseEntity<>(customerService.getCustomerByFirstName(firstName), HttpStatus.OK);
+//    @GetMapping("/{firstName}")
+//    public ResponseEntity<CustomerDTO> getCustomerByFirstName(@PathVariable("firstName") String firstName){
+//        return new ResponseEntity<>(customerService.getCustomerByFirstName(firstName), HttpStatus.OK);
+//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable("id") Long id){
+        return new ResponseEntity<>(customerService.getCustomerById(id), HttpStatus.OK);
     }
 }
