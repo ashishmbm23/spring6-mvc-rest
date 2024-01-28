@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/v1/products")
+@RequestMapping(ProductController.BASE_PRODUCT_URL)
 @RequiredArgsConstructor
 public class ProductController {
 
+    public static final String BASE_PRODUCT_URL = "/api/v1/products";
     private final ProductService productService;
 
     @GetMapping()
@@ -29,4 +30,6 @@ public class ProductController {
         return new ResponseEntity<>(productService.getProductByName(name),
                 HttpStatus.OK);
     }
+
+
 }
