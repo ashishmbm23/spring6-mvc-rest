@@ -2,6 +2,7 @@ package com.ashish.spring6mvcrest.service;
 
 import com.ashish.spring6mvcrest.api.v1.mapper.CustomerMapper;
 import com.ashish.spring6mvcrest.api.v1.model.CustomerDTO;
+import com.ashish.spring6mvcrest.controllers.v1.CustomerController;
 import com.ashish.spring6mvcrest.domain.Customer;
 import com.ashish.spring6mvcrest.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map( customer -> {
                    CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                   customerDTO.setCustomerUrl("/api/v1/customers/" + customerDTO.getId());
+                   customerDTO.setCustomerUrl(getCustomerUrl(customerDTO));
                    return customerDTO;
                         })
                 .collect(Collectors.toList());
@@ -85,7 +86,11 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDTO saveAndReturnDto(Customer customer) {
         Customer savedCustomer = customerRepository.save(customer);
         CustomerDTO savedCustomerDto = customerMapper.customerToCustomerDTO(savedCustomer);
-        savedCustomerDto.setCustomerUrl("/api/v1/customers/" + savedCustomerDto.getId());
+        savedCustomerDto.setCustomerUrl(getCustomerUrl(savedCustomerDto));
         return savedCustomerDto;
+    }
+
+    private static String getCustomerUrl(CustomerDTO savedCustomerDto) {
+        return CustomerController.BASE_CUSTOMER_URL + savedCustomerDto.getId();
     }
 }
