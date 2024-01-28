@@ -44,10 +44,24 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO createCustomer(CustomerDTO customerDTO) {
         Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        CustomerDTO savedCustomerDto = saveAndReturnDto(customer);
+        log.info("customer created: " + savedCustomerDto.getId());
+        return savedCustomerDto;
+    }
+
+    @Override
+    public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        customer.setId(id);
+        CustomerDTO updatedCustomerDto = saveAndReturnDto(customer);
+        log.info("customer updated: " + updatedCustomerDto.getId());
+        return updatedCustomerDto;
+    }
+
+    private CustomerDTO saveAndReturnDto(Customer customer) {
         Customer savedCustomer = customerRepository.save(customer);
         CustomerDTO savedCustomerDto = customerMapper.customerToCustomerDTO(savedCustomer);
         savedCustomerDto.setCustomerUrl("/api/v1/customers/" + savedCustomerDto.getId());
-        log.info("customer created: " + savedCustomerDto.getId());
         return savedCustomerDto;
     }
 }
