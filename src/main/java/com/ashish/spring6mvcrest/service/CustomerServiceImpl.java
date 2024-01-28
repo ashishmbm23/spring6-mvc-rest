@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -56,6 +57,24 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerDTO updatedCustomerDto = saveAndReturnDto(customer);
         log.info("customer updated: " + updatedCustomerDto.getId());
         return updatedCustomerDto;
+    }
+
+    @Override
+    public CustomerDTO patchCustomer(Long id, CustomerDTO customerDTO) {
+        Optional<Customer> savedCustomerOptional = Optional.ofNullable(customerRepository.findById(id).map(customer -> {
+            if (customerDTO.getFirstName() != null && !customerDTO.getFirstName().equals("")) {
+                customer.setFirstName(customerDTO.getFirstName());
+            }
+            if (customerDTO.getLastName() != null && !customerDTO.getLastName().equals("")) {
+                customer.setLastName(customerDTO.getLastName());
+            }
+            return customer;
+        }).orElseThrow(RuntimeException::new));
+        if( savedCustomerOptional.isPresent() ){
+            Customer savedCustomer = savedCustomerOptional.get();
+            return saveAndReturnDto(savedCustomer);
+        }
+        return null;
     }
 
     private CustomerDTO saveAndReturnDto(Customer customer) {
