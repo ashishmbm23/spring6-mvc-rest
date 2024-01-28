@@ -2,8 +2,10 @@ package com.ashish.spring6mvcrest.bootstrap;
 
 import com.ashish.spring6mvcrest.domain.Customer;
 import com.ashish.spring6mvcrest.domain.Product;
+import com.ashish.spring6mvcrest.domain.Vendor;
 import com.ashish.spring6mvcrest.repository.CustomerRepository;
 import com.ashish.spring6mvcrest.repository.ProductRepository;
+import com.ashish.spring6mvcrest.repository.VendorRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
@@ -16,14 +18,31 @@ public class Bootstrap implements CommandLineRunner {
 
     ProductRepository productRepository;
     CustomerRepository customerRepository;
+    VendorRepository vendorRepository;
 
     @Override
     public void run(String... args) throws Exception {
         saveProducts();
         saveCustomers();
-        System.out.println("Total number of products:" + productRepository.count());
+        saveVendors();
         log.info("Total number of products: " + productRepository.count());
         log.info("Total number of customers: " + customerRepository.count());
+        log.info("Total number of vendors: " + vendorRepository.count());
+    }
+
+    private void saveVendors() {
+        Vendor trueShop = new Vendor();
+        trueShop.setName("True Fruits Inc.");
+
+        Vendor max = new Vendor();
+        max.setName("Max Obsthof GmbH");
+
+        Vendor exotic = new Vendor();
+        exotic.setName("Exotics Fruit Lair Ltd.");
+
+        vendorRepository.save(trueShop);
+        vendorRepository.save(max);
+        vendorRepository.save(exotic);
     }
 
     private void saveCustomers() {
