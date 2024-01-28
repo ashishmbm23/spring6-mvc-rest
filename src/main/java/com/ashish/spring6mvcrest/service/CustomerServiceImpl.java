@@ -2,8 +2,10 @@ package com.ashish.spring6mvcrest.service;
 
 import com.ashish.spring6mvcrest.api.v1.mapper.CustomerMapper;
 import com.ashish.spring6mvcrest.api.v1.model.CustomerDTO;
+import com.ashish.spring6mvcrest.domain.Customer;
 import com.ashish.spring6mvcrest.repository.CustomerRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
     private CustomerRepository customerRepository;
@@ -36,5 +39,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerDTO getCustomerById(Long id) {
         return customerMapper.customerToCustomerDTO(customerRepository.findCustomerById(id));
+    }
+
+    @Override
+    public CustomerDTO createCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+        Customer savedCustomer = customerRepository.save(customer);
+        CustomerDTO savedCustomerDto = customerMapper.customerToCustomerDTO(savedCustomer);
+        savedCustomerDto.setCustomerUrl("/api/v1/customers/" + savedCustomerDto.getId());
+        log.info("customer created: " + savedCustomerDto.getId());
+        return savedCustomerDto;
     }
 }
