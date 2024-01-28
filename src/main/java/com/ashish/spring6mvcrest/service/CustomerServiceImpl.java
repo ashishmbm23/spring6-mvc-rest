@@ -91,6 +91,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private static String getCustomerUrl(CustomerDTO savedCustomerDto) {
-        return CustomerController.BASE_CUSTOMER_URL + savedCustomerDto.getId();
+        return CustomerController.BASE_CUSTOMER_URL + "/" + savedCustomerDto.getId();
     }
 }
