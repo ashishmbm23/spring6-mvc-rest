@@ -3,6 +3,7 @@ package com.ashish.spring6mvcrest.controllers.v1;
 import com.ashish.spring6mvcrest.api.v1.model.ProductDTO;
 import com.ashish.spring6mvcrest.api.v1.model.ProductListDTO;
 import com.ashish.spring6mvcrest.service.ProductService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(ProductController.BASE_PRODUCT_URL)
 @RequiredArgsConstructor
+@Tag(
+        name = "Product Service",
+        description = "CRUD REST APIs for product"
+)
 public class ProductController {
 
     public static final String BASE_PRODUCT_URL = "/api/v1/products";

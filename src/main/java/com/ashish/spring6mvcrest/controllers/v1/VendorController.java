@@ -2,6 +2,7 @@ package com.ashish.spring6mvcrest.controllers.v1;
 
 import com.ashish.spring6mvcrest.api.v1.model.VendorDTO;
 import com.ashish.spring6mvcrest.service.VendorService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,10 @@ import java.util.List;
 @RestController
 @RequestMapping(VendorController.VENDOR_BASE_URL)
 @AllArgsConstructor
+@Tag(
+        name = "Vendor Service",
+        description = "CRUD REST APIs for vendor"
+)
 public class VendorController {
     public static final String VENDOR_BASE_URL = "/api/v1/vendors";
     VendorService vendorService;
